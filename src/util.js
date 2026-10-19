@@ -87,7 +87,7 @@ export function download(url, dest, { onProgress } = {}) {
       const mod = u.startsWith('http:') ? http : https;
       const req = mod.get(
         u,
-        { headers: { 'user-agent': 'mcp-1c-bundle', accept: '*/*' } },
+        { headers: { 'user-agent': 'melya-cp-1c', accept: '*/*' } },
         (res) => {
           const code = res.statusCode || 0;
           if (code >= 300 && code < 400 && res.headers.location) {

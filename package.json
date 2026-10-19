@@ -1,10 +1,10 @@
 {
-  "name": "mcp-1c-bundle",
+  "name": "melya-cp-1c",
   "version": "1.0.0",
   "description": "Установка набора MCP-серверов для 1С/BSL одной командой: скачивает серверы с GitHub Releases и прописывает блок mcp в kilo.jsonc",
   "type": "module",
   "bin": {
-    "mcp-1c-bundle": "bin/mcp-1c-bundle.js"
+    "melya-cp-1c": "bin/melya-cp-1c.js"
   },
   "files": [
     "bin",
@@ -12,7 +12,7 @@
     "README.md"
   ],
   "scripts": {
-    "start": "node bin/mcp-1c-bundle.js",
+    "start": "node bin/melya-cp-1c.js",
     "test": "node --test"
   },
   "engines": {

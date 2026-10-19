@@ -2,7 +2,7 @@ import https from 'node:https';
 import http from 'node:http';
 
 const HEADERS = {
-  'user-agent': 'mcp-1c-bundle',
+  'user-agent': 'melya-cp-1c',
   accept: 'application/vnd.github+json',
 };
 

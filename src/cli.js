@@ -66,16 +66,16 @@ function parseArgs(argv) {
 
 function usage() {
   return `
-mcp-1c-bundle ${VERSION} — установка набора MCP-серверов для 1С/BSL одной командой.
+melya-cp-1c ${VERSION} — установка набора MCP-серверов для 1С/BSL одной командой.
 
 Использование:
-  mcp-1c-bundle [install] [опции]     скачать серверы и прописать блок mcp в kilo.jsonc
-  mcp-1c-bundle list                  показать серверы, версии и статус установки
-  mcp-1c-bundle print [опции]         напечатать JSON-блок mcp, ничего не скачивая
-  mcp-1c-bundle doctor [опции]        проверить окружение (java, файлы, конфиг)
+  melya-cp-1c [install] [опции]     скачать серверы и прописать блок mcp в kilo.jsonc
+  melya-cp-1c list                  показать серверы, версии и статус установки
+  melya-cp-1c print [опции]         напечатать JSON-блок mcp, ничего не скачивая
+  melya-cp-1c doctor [опции]        проверить окружение (java, файлы, конфиг)
 
 Основные опции:
-  --dir <path>            каталог для скачанных серверов (по умолчанию ~/.mcp-1c-bundle)
+  --dir <path>            каталог для скачанных серверов (по умолчанию ~/.melya-cp-1c)
   --config <path>         путь к kilo.jsonc (по умолчанию ~/.config/kilo/kilo.jsonc)
   --java <path>           путь к java.exe; иначе JAVA_HOME / PATH / автопоиск JDK
   --java-home <path>      каталог JDK
@@ -100,14 +100,14 @@ mcp-1c-bundle ${VERSION} — установка набора MCP-серверо�
 ${SERVERS.map((s) => `  ${s.id.padEnd(20)} ${(s.aliases || []).join(', ')}`).join('\n')}
 
 Пример:
-  mcp-1c-bundle install --platform-path "C:\\Program Files\\1cv8\\8.3.27.1326" \\
+  melya-cp-1c install --platform-path "C:\\Program Files\\1cv8\\8.3.27.1326" \\
     --java "C:\\Program Files\\Java\\jdk-26.0.2.1\\bin\\java.exe" \\
     --project "D:\\Projects\\1с\\AITestVS" --index-home "C:\\tools\\code-index"
 `.trim();
 }
 
 function defaultDir(values) {
-  return values.dir ? path.resolve(values.dir) : path.join(os.homedir(), '.mcp-1c-bundle');
+  return values.dir ? path.resolve(values.dir) : path.join(os.homedir(), '.melya-cp-1c');
 }
 
 function defaultConfig(values) {

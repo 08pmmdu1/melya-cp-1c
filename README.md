@@ -1,4 +1,4 @@
-# mcp-1c-bundle
+# melya-cp-1c
 
 Установка набора MCP-серверов для **1С:Предприятие / BSL** одной командой: пакет скачивает
 готовые сборки серверов с GitHub Releases и прописывает блок `mcp` в `kilo.jsonc`.
@@ -18,9 +18,9 @@
 
 ```powershell
 # из каталога пакета
-npm link            # или: node bin/mcp-1c-bundle.js <команда>
+npm link            # или: node bin/melya-cp-1c.js <команда>
 
-mcp-1c-bundle install `
+melya-cp-1c install `
   --platform-path "C:\Program Files\1cv8\8.3.27.1326" `
   --java "C:\Program Files\Java\jdk-26.0.2.1\bin\java.exe" `
   --project "D:\Projects\1с\AITestVS" `
@@ -43,7 +43,7 @@ mcp-1c-bundle install `
 
 | Опция | Описание |
 |---|---|
-| `--dir <path>` | каталог для скачанных серверов (по умолчанию `~/.mcp-1c-bundle`) |
+| `--dir <path>` | каталог для скачанных серверов (по умолчанию `~/.melya-cp-1c`) |
 | `--config <path>` | путь к `kilo.jsonc` (по умолчанию `~/.config/kilo/kilo.jsonc`) |
 | `--java <path>` / `--java-home <path>` | путь к Java (иначе `JAVA_HOME` → `PATH` → автопоиск JDK) |
 | `--platform-path <path>` | каталог платформы 1С — обязателен для `bsl-platform-context` |
@@ -65,15 +65,15 @@ mcp-1c-bundle install `
 
 ```powershell
 # только справка по API платформы, из локальной сборки SNAPSHOT
-mcp-1c-bundle install --only bsl-context `
+melya-cp-1c install --only bsl-context `
   --from bsl-platform-context="D:\Projects\mcp1c\mcp-bsl-context-0.3.2-SNAPSHOT.jar" `
   --platform-path "C:\Program Files\1cv8\8.3.27.1326"
 
 # посмотреть, что будет записано, без записи
-mcp-1c-bundle print --project "D:\Projects\1с\AITestVS" --json
+melya-cp-1c print --project "D:\Projects\1с\AITestVS" --json
 
 # обновить всё до последних релизов
-mcp-1c-bundle install --latest --platform-path "C:\Program Files\1cv8\8.3.27.1326"
+melya-cp-1c install --latest --platform-path "C:\Program Files\1cv8\8.3.27.1326"
 ```
 
 ## Как это работает
