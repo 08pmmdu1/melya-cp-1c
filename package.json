@@ -1,6 +1,6 @@
 {
   "name": "melya-cp-1c",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Установка набора MCP-серверов для 1С/BSL одной командой: скачивает серверы с GitHub Releases и прописывает блок mcp в kilo.jsonc",
   "type": "module",
   "repository": {
