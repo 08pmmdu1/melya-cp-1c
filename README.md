@@ -12,7 +12,8 @@
 | `code-index` | Индекс всей конфигурации (`bsl-indexer`) | `Regsorm/code-index-mcp` | native (`.zip`) | `1.14.0` |
 | `onec-buddy-mcp` | 1С:Напарник — документация, ИТС, проверка кода | `ROCTUP/1c-buddy` | remote URL | `http://localhost:6002/mcp` |
 
-`onec-buddy-mcp` не скачивается — это отдельный сервис (Docker); пакет только прописывает его URL.
+`onec-buddy-mcp` не скачивается — это отдельный сервис (Docker); пакет только прописывает его URL
+(см. «Запуск onec-buddy-mcp (Docker)»).
 
 ## Требования
 
@@ -100,6 +101,67 @@ melya-cp-1c list --json         # то же машинно-читаемо
   с `bin\1cv8.exe` (например `C:\Program Files\1cv8\8.3.27.1326`).
 - **`code-index` не отвечает** — нужен запущенный демон (см. «Замечания»).
 - **Ошибка «Не заданы обязательные параметры»** — не передан `--platform-path` (или не найдена Java).
+
+## Запуск onec-buddy-mcp (Docker)
+
+`onec-buddy-mcp` — единственный сервер набора, который не скачивается: это отдельный сервис
+(шлюз к 1С:Напарник) по адресу `http://localhost:6002/mcp`. Пакет `install` лишь прописывает этот
+URL в `kilo.jsonc`; сам сервис нужно поднять отдельно.
+
+1. Получите токен на [code.1c.ai](https://code.1c.ai).
+
+2. Запустите контейнер:
+
+```powershell
+docker pull roctup/1c-buddy
+
+docker run -d --name 1c-buddy --restart unless-stopped -p 6002:6002 `
+  -e "ONEC_AI_TOKEN=<your_1c_ai_token>" `
+  roctup/1c-buddy
+```
+
+С OpenAI-совместимым шлюзом (`/v1/*`) добавьте ключ `OPENAI_COMPAT_API_KEY`:
+
+```powershell
+docker run -d --name 1c-buddy --restart unless-stopped -p 6002:6002 `
+  -e "ONEC_AI_TOKEN=<your_1c_ai_token>" `
+  -e "OPENAI_COMPAT_API_KEY=<your_custom_api_key>" `
+  roctup/1c-buddy
+```
+
+3. Проверьте: чат — <http://localhost:6002/chat>, MCP — `http://localhost:6002/mcp`
+   (именно этот URL прописан в `kilo.jsonc`).
+
+Чтобы включить пользовательские инструкции и подключение внешних MCP-серверов прямо из чата:
+
+```powershell
+docker run -d --name 1c-buddy --restart unless-stopped -p 6002:6002 `
+  -e "ONEC_AI_TOKEN=<your_1c_ai_token>" `
+  -e "CHAT_CUSTOM_INSTRUCTIONS_ENABLED=true" `
+  -e "CHAT_CUSTOM_MCP_ENABLED=true" `
+  roctup/1c-buddy
+```
+
+За корпоративным прокси корневой сертификат передаётся через volume:
+
+```powershell
+docker run -d --name 1c-buddy --restart unless-stopped -p 6002:6002 `
+  -v "${PWD}/certs/company-ca-bundle.pem:/certs/company-ca-bundle.pem:ro" `
+  -e "SSL_CERT_FILE=/certs/company-ca-bundle.pem" `
+  -e "HTTPS_PROXY=http://proxy.company.local:3128" `
+  -e "NO_PROXY=localhost,127.0.0.1" `
+  -e "ONEC_AI_TOKEN=<your_1c_ai_token>" `
+  roctup/1c-buddy
+```
+
+`SSL_CERT_FILE` должен указывать на **полный** PEM-бандл (публичные CA + корпоративный);
+аварийный режим — `SSL_VERIFY=false`.
+
+Запуск без Docker (Python 3.10+) и stdio-режим для IDE описаны в апстриме:
+<https://github.com/ROCTUP/1c-buddy> (разделы «Быстрый старт» и «Запуск без Docker»).
+
+> Сервис обращается к API 1С:Напарник (`code.1c.ai`) из стороннего клиента — используйте на свой
+> страх и риск; см. дисклеймер в репозитории апстрима.
 
 ## Команды
 
