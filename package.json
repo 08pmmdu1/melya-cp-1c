@@ -1,0 +1,34 @@
+{
+  "name": "mcp-1c-bundle",
+  "version": "1.0.0",
+  "description": "Установка набора MCP-серверов для 1С/BSL одной командой: скачивает серверы с GitHub Releases и прописывает блок mcp в kilo.jsonc",
+  "type": "module",
+  "bin": {
+    "mcp-1c-bundle": "bin/mcp-1c-bundle.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "start": "node bin/mcp-1c-bundle.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18.17"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "1c",
+    "1c-enterprise",
+    "bsl",
+    "kilo",
+    "kilo-code",
+    "bsl-language-server",
+    "code-index",
+    "onec-buddy"
+  ],
+  "license": "MIT"
+}
