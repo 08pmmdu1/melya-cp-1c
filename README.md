@@ -14,12 +14,47 @@
 
 `onec-buddy-mcp` не скачивается — это отдельный сервис (Docker); пакет только прописывает его URL.
 
-## Быстрый старт
+## Требования
+
+- **Node.js >= 18.17** (проверено на Node 24).
+- **Java 17+** — для `bsl-platform-server` и `bsl-platform-context`.
+- **Платформа 1С** установлена локально — для `bsl-platform-context` (каталог `--platform-path`).
+
+## Установка
+
+> **Важно.** `npm install melya-cp-1c` только кладёт CLI в `node_modules` и создаёт ярлык
+> `node_modules\.bin\melya-cp-1c`. У пакета **нет `postinstall`** — сам он серверы не скачивает
+> и `kilo.jsonc` не правит. Чтобы серверы появились, нужно один раз запустить команду `install`
+> с обязательными параметрами (примеры ниже).
+
+### Способ 1 — разово через npx (без установки)
 
 ```powershell
-# из каталога пакета
-npm link            # или: node bin/melya-cp-1c.js <команда>
+npx melya-cp-1c@latest install `
+  --platform-path "C:\Program Files\1cv8\8.3.27.1326" `
+  --project "D:\Projects\1с\AITestVS"
+```
 
+### Способ 2 — глобально (команда доступна из любого каталога)
+
+```powershell
+npm install -g melya-cp-1c
+melya-cp-1c install --platform-path "C:\Program Files\1cv8\8.3.27.1326" --project "D:\Projects\1с\AITestVS"
+```
+
+### Способ 3 — локально в проект
+
+```powershell
+npm install melya-cp-1c
+npx melya-cp-1c install --platform-path "C:\Program Files\1cv8\8.3.27.1326" --project "D:\Projects\1с\AITestVS"
+```
+
+Далее в примерах команды показаны без префикса (как при глобальной установке); при локальной
+установке добавляйте префикс `npx `.
+
+### Полный вызов
+
+```powershell
 melya-cp-1c install `
   --platform-path "C:\Program Files\1cv8\8.3.27.1326" `
   --java "C:\Program Files\Java\jdk-26.0.2.1\bin\java.exe" `
@@ -27,7 +62,44 @@ melya-cp-1c install `
   --index-home "C:\tools\code-index"
 ```
 
-После установки перезапустите Kilo, чтобы он перечитал список MCP-серверов.
+- `--platform-path` — каталог платформы 1С (там, где `bin\1cv8.exe`); **обязателен** для `bsl-platform-context`.
+- `--java` — путь к `java.exe`; можно не указывать, если Java есть в `PATH` или задан `JAVA_HOME`.
+- `--project` — проект 1С для `code-index`; алиас базы берётся из имени каталога (здесь `aitestvs`).
+- `--index-home` — каталог `CODE_INDEX_HOME`; необязателен (по умолчанию `<dir>/code-index`).
+
+В PowerShell перенос строки — обратный апостроф `` ` ``, а пути с пробелами — в кавычках.
+
+### Проверка перед установкой
+
+```powershell
+melya-cp-1c doctor --platform-path "C:\Program Files\1cv8\8.3.27.1326" --project "D:\Projects\1с\AITestVS"
+melya-cp-1c install --dry-run --platform-path "C:\Program Files\1cv8\8.3.27.1326" --project "D:\Projects\1с\AITestVS"
+```
+
+### Что произойдёт при `install`
+
+1. Артефакты серверов скачиваются в `--dir` (по умолчанию `C:\Users\<вы>\.melya-cp-1c`).
+2. Блок `mcp` в `kilo.jsonc` дополняется нашими серверами; рядом создаётся резервная копия `.bak`.
+3. Состояние установки пишется в `<dir>\install-state.json`.
+
+После установки **перезапустите Kilo**, чтобы он перечитал список MCP-серверов.
+
+### Проверка после установки
+
+```powershell
+melya-cp-1c list                # статус серверов и пути к артефактам
+melya-cp-1c list --json         # то же машинно-читаемо
+```
+
+### Типичные проблемы
+
+- **«После `npm install` серверы не установились»** — это ожидаемо: `npm install` только ставит CLI,
+  нужен отдельный запуск `install` (см. выше).
+- **Java не найдена** — укажите `--java "<путь>\bin\java.exe"` или `--java-home "<каталог JDK>"`.
+- **`bsl-platform-context` не запускается** — `--platform-path` должен указывать на каталог платформы
+  с `bin\1cv8.exe` (например `C:\Program Files\1cv8\8.3.27.1326`).
+- **`code-index` не отвечает** — нужен запущенный демон (см. «Замечания»).
+- **Ошибка «Не заданы обязательные параметры»** — не передан `--platform-path` (или не найдена Java).
 
 ## Команды
 
