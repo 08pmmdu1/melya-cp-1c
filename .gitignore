@@ -1,3 +1,4 @@
 node_modules/
 *.log
 .DS_Store
+npm_recovery_codes.txt

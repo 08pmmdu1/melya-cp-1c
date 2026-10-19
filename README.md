@@ -94,3 +94,19 @@ melya-cp-1c install --latest --platform-path "C:\Program Files\1cv8\8.3.27.1326"
 - `bsl-platform-server` — это BSL Language Server; при необходимости положите рядом
   `.bsl-language-server.json`.
 - Пакет не имеет внешних зависимостей: только стандартная библиотека Node.js (>= 18.17).
+
+## Разработка и публикация
+
+```powershell
+npm test            # тесты (node --test)
+npm pack --dry-run  # проверить состав тарбола
+npm version patch   # поднять версию перед публикацией
+npm publish         # публикация в npm (нужен npm login)
+```
+
+Автоматическая публикация — `.github/workflows/publish.yml` (npm Trusted Publishing по OIDC)
+при создании GitHub Release. Для неё в настройках пакета на npmjs.com нужно добавить
+доверенного издателя: GitHub Actions, репозиторий `08pmmdu1/melya-cp-1c`, workflow `publish.yml`.
+Первую публикацию проще сделать локально, затем включить Trusted Publishing.
+
+Репозиторий: <https://github.com/08pmmdu1/melya-cp-1c>.

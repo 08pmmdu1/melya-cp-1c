@@ -3,6 +3,15 @@
   "version": "1.0.0",
   "description": "Установка набора MCP-серверов для 1С/BSL одной командой: скачивает серверы с GitHub Releases и прописывает блок mcp в kilo.jsonc",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/08pmmdu1/melya-cp-1c.git"
+  },
+  "homepage": "https://github.com/08pmmdu1/melya-cp-1c#readme",
+  "bugs": {
+    "url": "https://github.com/08pmmdu1/melya-cp-1c/issues"
+  },
+  "author": "DmitryMelesh <08pmmdu1@gmail.com>",
   "bin": {
     "melya-cp-1c": "bin/melya-cp-1c.js"
   },
